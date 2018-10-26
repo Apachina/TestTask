@@ -5,7 +5,16 @@ html
       | TestTask
     = csrf_meta_tags
     = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application'
 
   body
+    header
+      .navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark 
+        .a
+          .navbar-brand TestTask
     .container
       = yield
+    footer
+      center
+        | Lok'tar ogar
