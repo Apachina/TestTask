@@ -1,1 +1,13 @@
+form
+  .form-group
+    label for="number"  Number
+    input#number.form-control aria-describedby="emailHelp" placeholder=("Enter namber") type="number" /
+  .form-group
+    label for="day"  Day
+    input#day.form-control placeholder="Day" type="date" /
+  .form-group
+    label for="time"  Time
+    input#time.form-control placeholder="Time" type="time" /
+  button.btn.btn-primary type="submit"  Submit
+br
 = link_to (t "back"), root_path
