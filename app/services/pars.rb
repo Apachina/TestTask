@@ -17,19 +17,14 @@ class Pars
   end
 
   def urls_one_category(category)
+    get_html unless @doc
     ind = all_names_categoryes.index(category)
     links_categoryes[ind]
   end
 
-  def categoryes
+  def all_names_picks_in_categoyres
     get_html unless @doc
-    h = {}
-    names_blocks('.heading--3.app-collection__heading').each.with_index.each_with_object(Hash.new) do |(name,index), hash|
-      h['links'] = links_categoryes[index].each.with_index.each_with_object(Hash.new) do |(link, k), hsh|
-        hsh[k] = link
-      end
-      hash[name] = h['links']
-    end
+    @doc.css('.section.section--tight.app-collection').map{|a| a.css(".app-collection__item").css('.ui-app-card__name').map(&:text)}
   end
 
   private

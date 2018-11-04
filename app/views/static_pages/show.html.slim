@@ -17,25 +17,24 @@
             a href="#{@urls_pick[index]}"
               | #{name}
 .block-info
-  .h2 Trending apps
-  table.table
-    thead
-      tr
-        th scope="col" Number
-        th scope="col" Name
-        th scope="col" URI
-    tbody
-      - @names_categoryes.each_with_index do |name,index|
+  - @names_categoryes.each_with_index do |name,index|
+    .h2 #{name}
+    table.table
+      thead
         tr
-          td scope="col"
-            | #{index + 1}
-          td scope="col"
-            | #{name}
-          td scope="col"
-            - @all_urls_category[index].each do |url|
-              br
+          th scope="col" Number
+          th scope="col" Name
+          th scope="col" URI
+      tbody
+        - @all_urls_category[index].each_with_index do |url,ind|
+          tr
+            td scope="col"
+              | #{ind + 1}
+            td scope="col"
+              | #{@all_names_picks_in_categoyres[index][ind]}
+            td scope="col"
               a href="#{url}"
-                | #{name}
+                | #{@all_names_picks_in_categoyres[index][ind]}
 
 .btn.btn-success
   = link_to (t "admin"), admin_path
