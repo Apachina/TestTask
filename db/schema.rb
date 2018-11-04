@@ -10,12 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_29_222003) do
+ActiveRecord::Schema.define(version: 2018_11_04_120150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "admins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -26,14 +32,6 @@ ActiveRecord::Schema.define(version: 2018_10_29_222003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["title"], name: "index_picks_on_title", unique: true
-  end
-
-  create_table "plased_to_sells", force: :cascade do |t|
-    t.string "title"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["title"], name: "index_plased_to_sells_on_title", unique: true
   end
 
   create_table "static_pages", force: :cascade do |t|
