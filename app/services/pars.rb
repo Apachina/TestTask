@@ -22,7 +22,7 @@ class Pars
     links_categoryes[ind]
   end
 
-  def all_names_picks_in_categoyres
+  def all_names_picks_in_categoryes
     get_html unless @doc
     @doc.css('.section.section--tight.app-collection').map{|a| a.css(".app-collection__item").css('.ui-app-card__name').map(&:text)}
   end
