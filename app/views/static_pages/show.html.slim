@@ -7,14 +7,14 @@
         th scope="col" Name
         th scope="col" URI
     tbody
-      - @names_blok_picks.each_with_index do |name,index|
+      - @names_pick.each_with_index do |name,index|
         tr
           td scope="col"
             | #{index + 1}
           td scope="col"
             | #{name}
           td scope="col"
-            a href="#{@urls_picks[index]}"
+            a href="#{@urls_pick[index]}"
               | #{name}
 .block-info
   .h2 Trending apps
@@ -25,33 +25,17 @@
         th scope="col" Name
         th scope="col" URI
     tbody
-      - @names_blok_trending_apps.each_with_index do |name,index|
+      - @names_categoryes.each_with_index do |name,index|
         tr
           td scope="col"
             | #{index + 1}
           td scope="col"
             | #{name}
           td scope="col"
-            a href="#{@urls_trending_apps[index]}"
-              | #{name}
-.block-info
-  .h2 Places to sell
-  table.table
-    thead
-      tr
-        th scope="col" Number
-        th scope="col" Name
-        th scope="col" URI
-    tbody
-      - @names_blok_plased_to_sell.each_with_index do |name,index|
-        tr
-          td scope="col"
-            | #{index + 1}
-          td scope="col"
-            | #{name}
-          td scope="col"
-            a href="#{@urls_plased_to_sell[index]}"
-              | #{name}
+            - @all_urls_category[index].each do |url|
+              br
+              a href="#{url}"
+                | #{name}
 
 .btn.btn-success
   = link_to (t "admin"), admin_path

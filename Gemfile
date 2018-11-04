@@ -29,6 +29,7 @@ gem 'selenium-webdriver', '~> 2.53'
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
   gem 'foreman', '~> 0.82.0'
+  gem 'nokogiri', '~> 1.6', '>= 1.6.6.2'
 #end
 
 #group :test do

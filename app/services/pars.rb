@@ -1,59 +1,57 @@
-Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
-end
-
 class Pars
-  attr_accessor :session
-  MAIN_PAGE = "https://apps.shopify.com/".freeze
+  attr_reader :doc
 
-  def names_blok_picks
-    have_open_browser?
-    all_nemes_block('.ui-featured-app-card__byline','div a')
+  def staff_picks
+    get_html unless @doc
+    names_picks('.ui-featured-app-card__title.visually-hidden')
   end
 
-  def names_blok_trending_apps
-    have_open_browser?
-    @session.all(".section.section--tight.app-collection")
-                  .first
-                  .all('.ui-app-card__name')
-                  .map(&:text)
+  def urls_staff_picks
+    get_html unless @doc
+    @doc.css('.ui-featured-app-card__byline').css("a[href]").map{|el| el['href']}
   end
 
-  def names_blok_plased_to_sell
-    have_open_browser?
-    @session.find_link("See more Places to sell apps").click
-    all_nemes_block(".grid__item.grid__item--tablet-up-half.grid-item--app-card-listing", '.ui-app-card__name')
+  def all_names_categoryes
+    get_html unless @doc
+    names_blocks('.heading--3.app-collection__heading')
   end
 
-  def all_urls_one_block(names_one_blocks)
-    find_url(names_one_blocks)
+  def urls_one_category(category)
+    ind = all_names_categoryes.index(category)
+    links_categoryes[ind]
   end
 
-  def close_browser
-    @session.driver.browser.close
+  def categoryes
+    get_html unless @doc
+    h = {}
+    names_blocks('.heading--3.app-collection__heading').each.with_index.each_with_object(Hash.new) do |(name,index), hash|
+      h['links'] = links_categoryes[index].each.with_index.each_with_object(Hash.new) do |(link, k), hsh|
+        hsh[k] = link
+      end
+      hash[name] = h['links']
+    end
   end
 
   private
-    def have_open_browser?
-      if !@session 
-        open_main_page
-      else @session.current_url != MAIN_PAGE
-        @session.find(".app-store-logo").click
-      end
+
+    def names_picks(find_by)
+      names_blocks(find_by)
     end
 
-    def all_nemes_block(section,find_by)
-        @session.all(section).map{|a| a.find(find_by).text}
+    def names_blocks(find_by)
+      @doc.css(find_by).map(&:text)
     end
 
-    def find_url(links_name)
-      links_name.map do |link_name| 
-        @session.find_link(link_name, match: :first)[:href]
-      end
+    def links_categoryes
+      @doc.css('.section.section--tight.app-collection').map{|a| a.css(".app-collection__item").css("a[href]").map{|el| el['href']}}
+    end
+
+    def open_url
+      url = 'https://apps.shopify.com/'
+      open(url)
     end
     
-    def open_main_page
-      @session = Capybara::Session.new(:selenium)
-      @session.visit(MAIN_PAGE)
+    def get_html
+      @doc = Nokogiri::HTML(open_url)
     end
 end
